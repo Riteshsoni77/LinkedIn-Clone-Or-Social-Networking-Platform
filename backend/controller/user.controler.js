@@ -2,6 +2,8 @@
 import User from"../models/usermodel.js";
 import bcrypt from 'bcrypt';
 import Profile from "../models/profilemodel.js";
+import crypto from 'crypto';
+import { TokenOutlined } from "@mui/icons-material";
 
 export const register= async ( req, res )=>{
 
@@ -36,9 +38,31 @@ export const register= async ( req, res )=>{
 
 
 export const login= async( req, res)=>{
-    const { email,password}=req.body;
-    console.log(req.body);
 
+    try{
+        const { email,password}=req.body;
+         if ( !email || !password) return res.status(400).json({message:"all fields are required"});
+
+        const user =await User.findOne({
+            email
+        });
+        if (!user)return res.status (404).json({message:"user not exist"});
+       const ismatch=await bcrypt.compare(password,user.password);
+
+       if (!ismatch ) return res.status(400).json({message:"Invalid password"});
+
+       const token=crypto.randomBytes(32).toString("hex");
+       
+       await User.updateOne({_id:user._id},{token});
+
+       return res.json({message:"Login Succesful",token});
+
+
+
+    }catch(error){
+
+    }
+    
    
 
 }
