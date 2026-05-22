@@ -139,7 +139,7 @@ export const getUserAndProfile= async(req,res)=>{
 }
 
 
-export const  userProfileData = async ( req, res)=>{
+export const  updateProfileData = async ( req, res)=>{
 
     try{
         const { token, ...newProfileData}=req.body;
