@@ -3,7 +3,95 @@ import User from "../models/usermodel.js";
 import bcrypt from 'bcrypt';
 import Profile from "../models/profilemodel.js";
 import crypto from 'crypto';
-import { TokenOutlined } from "@mui/icons-material";
+import PDFDocument from 'pdfkit';
+import fs from 'fs';
+import path from "path";
+import ConnectionRequest from "../models/connectionsmodel.js";
+
+
+
+// const convertUserDataTOPDF= async(userData)=>{
+//     const doc = new PDFDocument();
+//     const outputPath=crypto.randomBytes(32).toString("hex")+".pdf";
+//     const stream=fs.createWriteStream("uploads/"+outputPath);
+   
+    
+   
+//     doc.pipe(stream);
+//     doc.image(`/uploads/${userData.userId.profilePicture}`,{align:"center",width:100});
+    
+//     doc.fontSize(14).text(`Name:${userData.userId.name}`);
+//     doc.fontSize(14).text(`Username:${userData.userId.username}`);
+//     doc.fontSize(14).text(`Email:${userData.userId.email}`);
+//     doc.fontSize(14).text(`Bio:${userData.userId.bio}`);
+//     doc.fontSize(14).text(`Current position:${userData.userId.currentPosition}`);
+
+//      doc.fontSize(14).text("past Work")
+//      userData.PastWork.forEach((work,index)=>{
+//         doc.fontSize(14).text(`company Name: ${work.companyName}`);
+//         doc.fontSize(14).text(`position: ${work.position}`);
+//         doc.fontSize(14).text(`years:${work.years}`);
+
+//      })
+//      doc.end();
+//     return outputPath;
+
+// }
+
+
+
+const convertUserDataTOPDF = async (userData) => {
+
+    const doc = new PDFDocument();
+    console.log(userData);
+
+    const outputPath =crypto.randomBytes(32).toString("hex") + ".pdf";
+
+    const pdfPath = path.join("uploads", outputPath);
+
+    const stream = fs.createWriteStream(pdfPath);
+
+    doc.pipe(stream);
+
+    
+    if (userData?.userId?.profilePicture) {
+
+        const imagePath = path.join(
+            "uploads",
+            userData.userId.profilePicture
+        );
+
+        if (fs.existsSync(imagePath)) {
+            doc.image(imagePath, {
+                align: "center",
+                width: 100,
+            });
+        }
+    }
+    
+
+    doc.fontSize(14).text(`Name: ${userData.userId.name}`);
+    doc.fontSize(14).text(`Username: ${userData.userId.username}`);
+    doc.fontSize(14).text(`Email: ${userData.userId.email}`);
+    doc.fontSize(14).text(`Bio: ${userData.bio}`);
+    doc.fontSize(14).text(`Current Position: ${userData.currentPosition}`);
+
+    doc.moveDown();
+    doc.fontSize(16).text("Past Work");
+
+     userData.postWork.forEach((work) => {
+
+    doc.fontSize(14).text(`Company Name: ${work.company}`);
+    doc.fontSize(14).text(`Position: ${work.position}`);
+    doc.fontSize(14).text(`Years: ${work.years}`);
+
+    doc.moveDown();
+});
+    doc.end();
+
+    return outputPath;
+};
+
 
 export const register = async (req, res) => {
 
@@ -31,8 +119,8 @@ export const register = async (req, res) => {
         return res.json({ message: "User Created " });
        
 
-    } catch (error) {
-        return res.status(500).json({ message: error.message })
+    } catch (err) {
+        return res.status(500).json({ message: err.message })
     }
 
 }
@@ -60,7 +148,7 @@ export const login = async (req, res) => {
 
 
 
-    } catch (error) {
+    } catch (err) {
 
     }
 
@@ -80,8 +168,8 @@ export const uploadprofilepicture = async (req, res) => {
         await user.save();
         return res.json({ message: "Profile Picture Updated" });
 
-    } catch (error) {
-        return res.status(500).json({ message: error.message })
+    } catch (err) {
+        return res.status(500).json({ message: err.message })
     }
 
 
@@ -110,8 +198,8 @@ export const  updateUserProfile= async(req,res)=>{
         await user.save();
         return res.json({message:"User Updated"});
 
-    }catch(error){
-        return res.Status(500).json({message:error.message});
+    }catch(err){
+        return res.status(500).json({message:err.message});
     }
 
 }
@@ -130,8 +218,8 @@ export const getUserAndProfile= async(req,res)=>{
 
       return res.json(userProfile); 
    
-     } catch (error) {
-        return res.status(500).json({ message: error.message })
+     } catch (err) {
+        return res.status(500).json({ message: err.message })
     }
 
 
@@ -158,9 +246,46 @@ export const  updateProfileData = async ( req, res)=>{
       return res.json({message:" User Profile Updated"});
        
 
-    }catch(error ){
-        return res.status(500).json({message:error.message});
+    }catch(err ){
+        return res.status(500).json({message:err.message});
     }
 
 }
+
+export const getAllUserProfile =async (req,res )=>{
+
+    try{
+        const profile=await Profile.find().populate('userId','name username email profilePicture');
+
+       return res.json ({profile});
+    }catch(err){
+        return  res.status(500).json({message:err.message});
+
+    }
+}
+
+
+export const downloadProfile= async(req,res)=>{
+    try{
+        
+        const user_id=req.query.id;
+       
+        const userProfile=await Profile.findOne({userId:user_id}).populate('userId', 'name username email  profilePicture');
+        let outputPath=await convertUserDataTOPDF(userProfile);
+       
+         console.log(outputPath);
+       return res.json({"message":outputPath})
+    }catch(err){
+        return  res.status(500).json({message:err.message});
+
+    }
+}
+
+
+
+   
+
+
+
+
 
