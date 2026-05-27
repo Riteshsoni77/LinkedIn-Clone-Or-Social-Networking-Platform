@@ -387,5 +387,3 @@ export const acceptConnectionRequest = async(req,res)=>{
     }
 }
 
-
-
