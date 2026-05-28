@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/riteshsoni/Desktop/my%20projects%20/LinkedIn%20Clone/frontend/src/pages/blog/index.js"],"sourcesContent":["export default function homepage(){\n    return (\n        <div>homepage</div>\n    )\n}"],"names":["homepage"],"mappings":";;;;;;AAAe,SAASA;IACpB,qBACI,qKAAC;kBAAI;;;;;;AAEb"}}]
-}

@@ -23,8 +23,8 @@ const start = async ()=>{
     app.set("mongo_user")
     const connectionDb = await mongoose.connect("mongodb+srv://riteshsoni1138_db_user:riteshsoni@linkedinclone.zcbonkt.mongodb.net/?appName=LinkedInClone");
      console.log(`MONGO Connected DB HOst: ${connectionDb.connection.host}`)
- app.listen(9090,()=>{
-    console.log("app is lisining on port 9090 ");
+ app.listen(9000,()=>{
+    console.log("app is lisining on port 9000 ");
  })
 }
 start();
