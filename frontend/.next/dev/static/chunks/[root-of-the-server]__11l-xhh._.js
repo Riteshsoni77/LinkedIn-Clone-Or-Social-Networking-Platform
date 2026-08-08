@@ -525,6 +525,7 @@ const __TURBOPACK__default__export__ = fontData;
 "[project]/src/styles/Home.module.css [client] (css module)", ((__turbopack_context__) => {
 
 __turbopack_context__.v({
+  "container": "Home-module__Ho9lYW__container",
 });
 }),
 "[project]/src/pages/index.js [client] (ecmascript)", ((__turbopack_context__) => {
