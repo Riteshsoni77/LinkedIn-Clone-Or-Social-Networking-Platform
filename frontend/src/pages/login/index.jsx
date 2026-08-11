@@ -1,9 +1,14 @@
+import UserLayout from '@/layout/UserLayout'
 import React from 'react'
 
 export default function LoginComponent() {
   return (
-    <div>
-      <div> login component </div>
-    </div>
+  
+      <UserLayout>
+         <div> login component </div>
+
+      </UserLayout>
+     
+   
   )
 }
