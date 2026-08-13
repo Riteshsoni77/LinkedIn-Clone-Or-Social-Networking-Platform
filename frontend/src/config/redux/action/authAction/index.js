@@ -1,3 +1,4 @@
+import { clientServer } from "@/config";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 
@@ -44,7 +45,7 @@ export const loginuser = createAsyncThunk(
                    if(response){
                     message:"Registration successful"
             
-                   } 
+                   }
 
             }catch(err){
                 return thunkAPI.rejectWithValue(err.response.data)
