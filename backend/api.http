@@ -23,12 +23,12 @@ Content-Type:
 
 ####
 
-GET http://localhost:9000/get_user_and_profile HTTP/1.1
+GET http://localhost:9000/get_user_and_profile?token=bb2fa358516d83c5e90e12ac2a9bbb6fd5174d0950411e415ff459f6ca7bb6ba HTTP/1.1
 Content-Type: application/json
 
-  {
-    "token":"bb2fa358516d83c5e90e12ac2a9bbb6fd5174d0950411e415ff459f6ca7bb6ba"
-    }
+  # {
+  #   "token":"bb2fa358516d83c5e90e12ac2a9bbb6fd5174d0950411e415ff459f6ca7bb6ba"
+  #   }
 
 ###
 

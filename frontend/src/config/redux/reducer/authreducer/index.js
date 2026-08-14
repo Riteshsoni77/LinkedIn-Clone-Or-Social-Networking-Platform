@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginuser, registerUser } from "../../action/authAction";
+import { getAboutUser, loginuser, registerUser } from "../../action/authAction";
 
 const initialState = {
     user:[],
@@ -70,6 +70,28 @@ const authSlice = createSlice({
                 state.isError=true;
                 state.message=action.payload
  
+            })
+
+
+            .addCase(getAboutUser.pending,(state)=>{
+                state.isLoading=true;
+                state.message="Fetching your profile data ....."
+            } )
+
+            .addCase(getAboutUser.fulfilled,(state,action)=>{
+                state.isLoading=false;
+                state.isSuccess=true;
+                state.isError=false;
+                state.profileFetched=true;
+                state.user=action.payload.profile;
+                state.message="profile data fetched successfully";
+                
+            })
+
+            .addCase(getAboutUser.rejected,(state,action)=>{
+                state.isLoading=false;
+                state.isError=true;
+                state.message=action.payload;
             })
         }
 }
