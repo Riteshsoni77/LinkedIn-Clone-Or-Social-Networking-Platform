@@ -1,5 +1,6 @@
 import { Comment } from "../models/commentmodel.js";
 import Post from "../models/postmodel.js";
+import Profile from "../models/profilemodel.js";
 import User from "../models/usermodel.js";
 
 
@@ -180,6 +181,29 @@ export const increment_likes=async(req,res)=>{
        } catch  (err){
         return res.status(500).json({message:err.message});
        }
+}
+
+
+export const getUserProfileAndUserBasedOnUsername=async(req,res)=>{
+    const {username}=req.query;
+
+    try{
+        const user=await User.findOne({username:username}).select("-password -token");
+        if (!user){
+            return res.status(400).json({message:"user not found"});
+        }
+        const userProfile=await Profile.findOne({userId:user._id})
+        .populate("userId","name username email profilePicture");
+        if (!userProfile){
+            return res.status(400).json({message:"user profile not found"});
+        }
+        return res.status(200).json({user,userProfile});    
+
+    }catch(err){
+        return res.status(500).json({message:err.message});
+    }                                       
+
+
 }
 
 

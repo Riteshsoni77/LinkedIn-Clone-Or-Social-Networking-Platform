@@ -1,7 +1,7 @@
 import {Router} from "express";
 
 import multer from "multer";
-import { commentPost, createPost, delete_comment_user, deletePost, get_connents_by_post, getAllPosts, increment_likes } from "../controller/posts.controller.js";
+import { commentPost, createPost, delete_comment_user, deletePost, get_connents_by_post, getAllPosts, getUserProfileAndUserBasedOnUsername, increment_likes } from "../controller/posts.controller.js";
 const router=Router();
 
 const storage = multer.diskStorage({
@@ -23,6 +23,7 @@ router.route("/comment").post(commentPost);
 router.route("/get_comments").get(get_connents_by_post);
 router.route("/delete_  comment").delete(delete_comment_user);
 router.route("/like_post").post(increment_likes);
+router.route("/user/get_profile_based_on_username").get(getUserProfileAndUserBasedOnUsername);
 
 
 
