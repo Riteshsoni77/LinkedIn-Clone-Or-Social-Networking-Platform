@@ -13,7 +13,8 @@ app.use(cors());
 app.use(postRoutes);
 app.use(userRoutes);
 
-app.use(express.static(process.cwd() + '/backend/uploads'));
+// app.use(express.static(process.cwd() + '/backend/uploads'));
+app.use(express.static(process.cwd() + '/uploads'));
 
 
 

@@ -252,18 +252,21 @@ export const updateProfileData = async (req, res) => {
 
 }
 
+
+
 export const getAllUserProfile = async (req, res) => {
-
     try {
-        const profile = await Profile.find().populate('userId', 'name username email profilePicture');
+        const profile = await Profile.find()
+            .populate("userId", "name username email profilePicture");
 
-        return res.json({ profile });
+        return res.status(200).json({ profile });
+
     } catch (err) {
-        return res.status(500).json({ message: err.message });
-
+        return res.status(500).json({
+            message: err.message
+        });
     }
-}
-
+};
 
 export const downloadProfile = async (req, res) => {
     try {

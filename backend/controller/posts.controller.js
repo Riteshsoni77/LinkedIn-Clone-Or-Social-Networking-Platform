@@ -1,3 +1,4 @@
+import { Comment } from "../models/commentmodel.js";
 import Post from "../models/postmodel.js";
 import User from "../models/usermodel.js";
 
@@ -15,10 +16,10 @@ export const  createPost=async (req,res)=>{
         }
      
          const  post = new Post({
-            usrId:user._id,
+            userId:user._id,
             body:req.body.body,
             media:req.file!=undefined?req.file.filename:"",
-            filetype:req.file!=undefined?req.file.mimetype:"",
+            filetype:req.file!=undefined?req.file.mimeType:"",
 
          })
          await post.save();
@@ -36,7 +37,9 @@ export const  createPost=async (req,res)=>{
 export const getAllPosts=async (req,res)=>{
         
     try{
-        const posts=await Post.find().populate("userId","name  username  emailprofile_picture");
+        const posts=await Post.find()
+         .populate("userId", "name username email profilePicture");
+
         return res.status(200).json({posts});
     }catch (err){
         return res.status(500).json({message:err.message});
@@ -59,7 +62,7 @@ export const deletePost=async (req,res)=>{
             return res.status(400).json({message:"post not found"});
         }
 
-        if (post.usrId.toString()!==user._id.toString()){
+        if (post.userId.toString()!==user._id.toString()){
             return res.status(403).json({message:"you are not authorized to delete this post"});
         }
 
@@ -105,23 +108,29 @@ export const commentPost=async(req,res)=>{
     }
 }
 
-export const get_connents_by_post =async(req,res)=>{
 
-    const {postId}=req.query;
 
-    try{
+export const get_connents_by_post = async (req, res) => {
 
-        const post=await Post.findOne({_id:postId});
-        
-        if (!post){
-            return res.status(400).json({message:"post not found"});
-        }
-        return res.json({comments:post.comments});
+    const { postId } = req.query;
 
-    }catch  (err){
-        return res.status(500).json({message:err.message});
+    try {
+
+        const comments = await Comment.find({ postId })
+            .populate("userId", "name username profilePicture");
+
+        return res.status(200).json({
+            comments
+        });
+
+    } catch (err) {
+
+        return res.status(500).json({
+            message: err.message
+        });
+
     }
-}
+};
 
 
 export const  delete_comment_user=async(req,res)=>{

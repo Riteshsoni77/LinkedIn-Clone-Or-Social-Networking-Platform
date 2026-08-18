@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAboutUser, loginuser, registerUser } from "../../action/authAction";
+import { getAboutUser, getAllUser, loginuser, registerUser } from "../../action/authAction";
 
 const initialState = {
     user:[],
@@ -7,9 +7,12 @@ const initialState = {
     isSuccess:false,
     isLoading:false,
     message:"",
+    isTokenThere:false,
     profileFetched: false,
     connections: [],
     connnectionRequest: [],
+    all_users: [],
+    all_profiles_fetched: false,
 
 }
 
@@ -26,6 +29,12 @@ const authSlice = createSlice({
         },
         emptymessage:(state)=>{
             state.message=""
+        },
+        setTokenThere:(state,action)=>{
+            state.isTokenThere= true
+        },
+        setTokenNotThere:(state,action)=>{
+            state.isTokenThere= false
         }
         
 
@@ -93,8 +102,32 @@ const authSlice = createSlice({
                 state.isError=true;
                 state.message=action.payload;
             })
+
+            .addCase(getAllUser.pending,(state)=>{
+                state.isLoading=true;
+                state.message="Fetching all users data ....."
+            } )
+
+            .addCase(getAllUser.fulfilled,(state,action)=>{
+
+                state.isLoading=false;
+                state.all_profiles_fetched=true;
+               
+                state.isError=false;
+               state.all_users=action.payload.profile;
+            })
+
+            .addCase(getAllUser.rejected,(state,action)=>{
+                state.isLoading=false;
+                state.isError=true;
+                state.message=action.payload;
+            })
+
+
+
+
         }
 }
 )
-export const { reset,  emptymessage } = authSlice.actions;
+export const { reset,  emptymessage , setTokenThere, setTokenNotThere } = authSlice.actions;
 export default authSlice.reducer
