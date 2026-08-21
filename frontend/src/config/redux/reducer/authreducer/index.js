@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAboutUser, getAllUser, loginuser, registerUser } from "../../action/authAction";
+import { acceptConnectionRequest, getAboutUser, getAllUser, getConnectionRequests, getMyConnectionRequests, loginuser, registerUser } from "../../action/authAction";
 
 const initialState = {
     user:[],
@@ -10,7 +10,7 @@ const initialState = {
     isTokenThere:false,
     profileFetched: false,
     connections: [],
-    connnectionRequest: [],
+    connectionRequest: [],
     all_users: [],
     all_profiles_fetched: false,
 
@@ -122,6 +122,63 @@ const authSlice = createSlice({
                 state.isError=true;
                 state.message=action.payload;
             })
+
+             .addCase(getConnectionRequests.pending,(state)=>{
+                state.isLoading=true;
+                state.message="Fetching your connection requests ....."
+            } )
+
+            .addCase(getConnectionRequests.fulfilled,(state,action)=>{
+                state.isLoading=false;
+                state.isError=false;
+    connections: [],
+                state.connections=action.payload.connection;
+            })
+
+            .addCase(getConnectionRequests.rejected,(state,action)=>{
+                state.isLoading=false;
+                state.isError=true;
+                state.message=action.payload;
+            })
+
+           .addCase(getMyConnectionRequests.pending,(state)=>{
+                state.isLoading=true;
+                state.message="Fetching your connections ....."
+            } )
+            
+            .addCase(getMyConnectionRequests.fulfilled,(state,action)=>{
+                state.isLoading=false;
+                state.isError=false;
+                state.connectionRequest=action.payload.connections;
+               
+                console.log("connection request [] data",state.connectionRequest);
+            })
+
+            .addCase(getMyConnectionRequests.rejected,(state,action)=>{
+                state.isLoading=false;
+                state.isError=true;
+                state.message=action.payload;
+            })
+
+            // .addCase(acceptConnectionRequest.pending,(state)=>{
+            //     state.isLoading=true;
+            //     state.message="Accepting connection request ....."
+            // } )
+            
+            // .addCase(acceptConnectionRequest.fulfilled,(state,action)=>{
+            //     state.isLoading=false;
+            //     state.isError=false;
+            //     state.connectionRequest=action.payload.connections;
+               
+            //     console.log("connection request [] data",state.connectionRequest);
+            // })
+
+            // .addCase(acceptConnectionRequest.rejected,(state,action)=>{
+            //     state.isLoading=false;
+            //     state.isError=true;
+            //     state.message=action.payload;
+            // })
+            
 
 
 

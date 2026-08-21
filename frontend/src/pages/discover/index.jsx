@@ -5,11 +5,13 @@ import { useEffect } from "react";
 import { getAllUser } from "@/config/redux/action/authAction";
 import { BASE_URL } from "@/config";
 import styles from "./index.module.css";
+import { useRouter } from "next/router";
 
 export default function Discoverpage() {
 
     const dispatch = useDispatch();
     const authState = useSelector((state) => state.auth);
+    const router = useRouter();
     
     useEffect(() => {
 
@@ -18,6 +20,8 @@ export default function Discoverpage() {
         dispatch( getAllUser());
         }
     },[]);
+
+
 
     
   
@@ -33,7 +37,9 @@ export default function Discoverpage() {
 
                         {authState.all_users.map((user) => {
                             return (
-                                <div key={user._id} className={styles.userCard}>
+                                <div
+                                 onClick={() => router.push(`/view_profile/${user.userId.username}`)}   
+                                 key={user._id} className={styles.userCard}>
                              
                                         <img  className={styles.userCard_image}
                                         src={ `${BASE_URL}/${user.userId.profilePicture}` } alt="profile" />
