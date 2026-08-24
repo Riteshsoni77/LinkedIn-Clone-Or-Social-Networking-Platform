@@ -60,7 +60,7 @@ export default function Dashboard() {
         const interval = setInterval(() => {
             dispatch(getAllPosts());
         }, 100000);
-        
+
     }, []);
 
 
@@ -231,26 +231,26 @@ export default function Dashboard() {
 
                                 {postState.comments.length === 0 && <h2 style={{ textAlign: 'center', marginTop: '2rem' }}>No comment yet</h2>}
 
-                                {postState.comments.length!==0 &&
-                                
-                                <div>
+                                {postState.comments.length !== 0 &&
 
-                                    {postState.comments.map((Comment, index) => {
-    if (!Comment || !Comment.userId) return null;
-    return( 
-        <div className={styles.singleComment} key={Comment._id}>
-            <div className={styles.singleComment_profileContainer}>
-                <div>
-                    <p style={{ fontWeight: 'bold' }}>{Comment.userId.name}</p>
-                    <p style={{ color: 'gray' }}> @{Comment.userId.username}</p>
-                </div>  
-            </div>
-            <p className={styles.singleComment_body}>{Comment.body}</p>
-        </div>
-       )
-})}
-                                    
-                                    
+                                    <div>
+
+                                        {postState.comments.map((Comment, index) => {
+                                            if (!Comment || !Comment.userId) return null;
+                                            return (
+                                                <div className={styles.singleComment} key={Comment._id}>
+                                                    <div className={styles.singleComment_profileContainer}>
+                                                        <div>
+                                                            <p style={{ fontWeight: 'bold' }}>{Comment.userId.name}</p>
+                                                            <p style={{ color: 'gray' }}> @{Comment.userId.username}</p>
+                                                        </div>
+                                                    </div>
+                                                    <p className={styles.singleComment_body}>{Comment.body}</p>
+                                                </div>
+                                            )
+                                        })}
+
+
                                     </div>}
 
                                 <div className={styles.postCommentContainer}>
@@ -267,7 +267,7 @@ export default function Dashboard() {
                                             console.log("postState:", postState);
                                             console.log("postId:", postState.postId);
                                             console.log("commentText:", commentText);
-                                             dispatch(postComment({ post_id: postState.postId, body: commentText }));
+                                            dispatch(postComment({ post_id: postState.postId, body: commentText }));
                                             dispatch(getAllComment({ post_id: postState.postId }));
                                             setCommentText("");
                                         }}
