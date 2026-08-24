@@ -17,7 +17,7 @@ app.use(userRoutes);
 app.use(express.static(process.cwd() + '/uploads'));
 
 
-app.get('/',(req,res)=>{
+app.get('/hellow',(req,res)=>{
     res.send("Hello from backend");
 });
 
