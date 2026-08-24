@@ -17,6 +17,11 @@ app.use(userRoutes);
 app.use(express.static(process.cwd() + '/uploads'));
 
 
+app.get('/',(req,res)=>{
+    res.send("Hello from backend");
+});
+
+
 
 const start = async ()=>{
     // const connectDb=await mongoose.connect('mongodb+srv://riteshsoni1138_db_user:riteshsoni@linkedinclone.zcbonkt.mongodb.net/?appName=LinkedInClone');
