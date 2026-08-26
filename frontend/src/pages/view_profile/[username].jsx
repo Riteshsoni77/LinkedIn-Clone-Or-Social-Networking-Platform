@@ -82,7 +82,7 @@ export default function ViewProfile({ userProfile }) {
                     </div>
                     <div className={styles.profileContainer_datils}>
 
-                        <div style={{ display: "flex", gap: "1.7rem" }}>
+                        <div className={styles.profileContainer_flex}>
 
                             <div style={{ flex: 0.8 }}>
                                 <div style={{ display: "flex", width: "fit-content", alignItems: "center", gap: "1.2rem" }}>

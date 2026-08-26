@@ -22,7 +22,7 @@ export default function NavbarComponent() {
           {authState.profileFetched && <div>
 
             <div style={{ display: "flex", gap: "1.2rem" }}>
-            <p> hey {authState.user.userId.name} </p>
+            {/* <p> hey {authState.user.userId.name} </p> */}
             <p   onClick={() => router.push("/profile")}
             style={{fontWeight: "bold", cursor: "pointer"}}>profile </p>
             <p 

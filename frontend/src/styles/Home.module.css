@@ -41,3 +41,25 @@
   padding-block: 0.6rem;
   border-radius: 20px;
 }
+
+
+@media only screen and (max-width: 600px) {
+  .mainContainer {
+    flex-direction: column;
+    gap: 2rem;
+     height: auto;
+  }
+  .mainContainer_left  {
+    flex:1;
+    padding-top: 0.8rem;
+  }
+
+  .mainContainer_right{
+    flex:1;
+  }
+
+  .mainContainer_right >img{
+    width:95%;
+  }
+  
+}
